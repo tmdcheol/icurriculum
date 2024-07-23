@@ -15,8 +15,9 @@ import icurriculum.domain.curriculum.json.CoreJson;
 import icurriculum.domain.membermajor.*;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -43,10 +44,10 @@ public class GraduationService {
         CoreJson 핵심교양_SW_창의_필요정보 = generate_핵심교양_SW_창의(memberMajors);
 
         // 3. 수강이력을 가져온다.
-        Map<Category, List<Take>> takeMap = takeService.generateTakeMapForCategory(Member);
+        Map<Category, List<Take>> takeMapForCategory = takeService.generateTakeMapForCategory(Member);
 
         // 3. 핵심교양SW창의_프로세스_진행
-        핵심교양SW창의_프로세스_진행(response, 핵심교양_SW_창의_필요정보, takeMap);
+        핵심교양SW창의_프로세스_진행(response, 핵심교양_SW_창의_필요정보, takeMapForCategory);
 
         // 4. 학과별_교과과정_프로세스_진행
         학과별_교과과정_프로세스_진행();
@@ -62,45 +63,32 @@ public class GraduationService {
     }
 
     private void 핵심교양SW창의_프로세스_진행(GraduationResponse response, CoreJson 핵심교양_SW_창의_필요정보, Map<Category, List<Take>> takeMap) {
-        getProcessor(processorMap, ProcessorCategory.창의)
-                .process(response, 핵심교양_SW_창의_필요정보, List.of(getTakes(takeMap, Category.창의)));
+        processorMap.get(ProcessorCategory.창의)
+                .process(response, 핵심교양_SW_창의_필요정보, getTakes(takeMap, Category.창의));
 
-        getProcessor(processorMap, ProcessorCategory.SW_AI)
-                .process(response, 핵심교양_SW_창의_필요정보, List.of(getTakes(takeMap, Category.SW_AI)));
+        processorMap.get(ProcessorCategory.SW_AI)
+                .process(response, 핵심교양_SW_창의_필요정보, getTakes(takeMap, Category.SW_AI));
 
-        getProcessor(processorMap, ProcessorCategory.핵심교양)
-                .process(response, 핵심교양_SW_창의_필요정보,
-                        List.of(
-                                getTakes(takeMap, Category.핵심교양1),
-                                getTakes(takeMap, Category.핵심교양2),
-                                getTakes(takeMap, Category.핵심교양3),
-                                getTakes(takeMap, Category.핵심교양4),
-                                getTakes(takeMap, Category.핵심교양5),
-                                getTakes(takeMap, Category.핵심교양6)
-                        ));
-
-    }
-
-    private Processor getProcessor(Map<ProcessorCategory, Processor> processorMap, ProcessorCategory category) {
-        Processor processor = processorMap.get(category);
-        /**
-         * 예외 추후 정의
-         */
-        if (processor == null) {
-            throw new RuntimeException();
-        }
-        return processor;
+        processorMap.get(ProcessorCategory.핵심교양)
+                .process(response, 핵심교양_SW_창의_필요정보, getCoreTakes(takeMap));
     }
 
     private List<Take> getTakes(Map<Category, List<Take>> takeMap, Category category) {
-        List<Take> takes = takeMap.get(category);
-        /**
-         * 예외 추후 정의
-         */
-        if (takes == null) {
-            throw new RuntimeException();
-        }
-        return takes;
+        return Optional.ofNullable(takeMap.get(category)).orElse(Collections.emptyList());
+    }
+
+    private List<Take> getCoreTakes(Map<Category, List<Take>> takeMap) {
+        return Stream.of(
+                        getTakes(takeMap, Category.핵심교양1),
+                        getTakes(takeMap, Category.핵심교양2),
+                        getTakes(takeMap, Category.핵심교양3),
+                        getTakes(takeMap, Category.핵심교양4),
+                        getTakes(takeMap, Category.핵심교양5),
+                        getTakes(takeMap, Category.핵심교양6)
+                )
+                .filter(Objects::nonNull)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     private void 학과별_교과과정_프로세스_진행() {

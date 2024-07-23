@@ -9,15 +9,18 @@ import java.util.List;
 
 @Component
 public class CreativeProcessor implements Processor {
+    public void process(GraduationResponse response, CoreJson 핵심교양_SW_창의_필요정보, List<Take> takes) {
+        int 수강학점 = 0;
+        int 기준학점 = 0;
 
-    public void process(GraduationResponse response, CoreJson 핵심교양_SW_창의_필요정보, List<List<Take>> takesList) {
-        if (notRequiredCreative(핵심교양_SW_창의_필요정보))
+        if (notRequiredCreative(핵심교양_SW_창의_필요정보)) {
+            response.창의_영역_입력(수강학점, 기준학점);
             return;
+        }
 
-        int 수강학점 = calculateAllCredit(takesList);
-        int 기준학점 = 핵심교양_SW_창의_필요정보.get창의();
-
-        response.창의_영역수정(수강학점, 기준학점);
+        수강학점 = calculateTotalCredit(takes);
+        기준학점 = 핵심교양_SW_창의_필요정보.get창의();
+        response.창의_영역_입력(수강학점, 기준학점);
     }
 
     private boolean notRequiredCreative(CoreJson 핵심교양_SW_창의_필요정보) {

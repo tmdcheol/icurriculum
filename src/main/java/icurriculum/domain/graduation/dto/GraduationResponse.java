@@ -1,5 +1,7 @@
 package icurriculum.domain.graduation.dto;
 
+import icurriculum.domain.take.Category;
+
 import java.util.*;
 
 public class GraduationResponse {
@@ -9,48 +11,46 @@ public class GraduationResponse {
     private int 주전공필수_이수학점;
     private int 주전공필수_기준학점;
 
-
     private int 주전공선택_이수학점;
     private int 주전공선택_기준학점;
 
     private int 교양필수_이수학점;
     private int 교양필수_기준학점;
 
-    private List<Integer> 핵심교양_미이수영역 = new ArrayList<>();
-    private int 핵심교양_이수학점;
-    private int 핵심교양_기준학점;
+    private boolean 핵심교양_조건충족;
+    private final List<Category> 핵심교양_미이수영역 = new ArrayList<>();
 
+    private boolean SWAI_조건충족;
 
-    private int SWAI_이수학점;
-    private int SWAI_기준학점;
+    private boolean 창의_조건충족;
 
-
-    private int 창의_이수학점;
-    private int 창의_기준학점;
-
-
-    private int 교양선택_이수학점;
-    private int 교양선택_기준학점;
-
-    private List<String> reasons = new ArrayList<>();
-
-    public void 창의_영역수정(int 이수학점, int 기준학점) {
-        this.창의_기준학점 = 이수학점;
-        this.창의_이수학점 = 기준학점;
+    public void 창의_영역_입력(int 이수학점, int 기준학점) {
+        add_전체이수학점(이수학점);
+        창의_조건충족 = 이수학점 >= 기준학점;
     }
 
-    public void SWAI_영역수정(int 이수학점, int 기준학점) {
-        this.SWAI_이수학점 = 이수학점;
-        this.SWAI_기준학점 = 기준학점;
+    public void SWAI_영역_입력(int 이수학점, int 기준학점) {
+        add_전체이수학점(이수학점);
+        SWAI_조건충족 = 이수학점 >= 기준학점;
     }
 
-    public void 핵심교양_영역수정(int 이수학점, int 기준학점) {
-        this.핵심교양_이수학점 = 이수학점;
-        this.핵심교양_기준학점 = 기준학점;
+    public void 핵심교양_영역_입력_영역상관없을때(int 이수학점, int 기준학점) {
+        add_전체이수학점(이수학점);
+        핵심교양_조건충족 = 이수학점 >= 기준학점;
     }
 
-    public void addReason(String reason) {
-        reasons.add(reason);
+    public void 핵심교양_영역_입력_영역상관있을때(int 이수학점, List<Category> 미이수영역) {
+        if (미이수영역.isEmpty()) {
+            핵심교양_조건충족 = true;
+            return;
+        }
+        add_전체이수학점(이수학점);
+        핵심교양_조건충족 = false;
+        핵심교양_미이수영역.addAll(미이수영역);
+    }
+
+    private void add_전체이수학점(int credit){
+        전체_이수_학점 += credit;
     }
 
 }

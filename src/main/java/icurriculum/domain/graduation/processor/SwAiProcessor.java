@@ -9,14 +9,19 @@ import java.util.List;
 
 @Component
 public class SwAiProcessor implements Processor {
-    public void process(GraduationResponse response, CoreJson 핵심교양_SW_창의_필요정보, List<List<Take>> takesList) {
-        if (notRequiredSwAi(핵심교양_SW_창의_필요정보))
+
+    public void process(GraduationResponse response, CoreJson 핵심교양_SW_창의_필요정보, List<Take> takesList) {
+        int 수강학점 = 0;
+        int 기준학점 = 0;
+
+        if (notRequiredSwAi(핵심교양_SW_창의_필요정보)) {
+            response.SWAI_영역_입력(수강학점, 기준학점);
             return;
+        }
 
-        int 수강학점 = calculateAllCredit(takesList);
-        int 기준학점 = 핵심교양_SW_창의_필요정보.getSwAi();
-
-        response.SWAI_영역수정(수강학점, 기준학점);
+        수강학점 = calculateTotalCredit(takesList);
+        기준학점 = 핵심교양_SW_창의_필요정보.getSwAi();
+        response.SWAI_영역_입력(수강학점, 기준학점);
     }
 
     private boolean notRequiredSwAi(CoreJson 핵심교양_SW_창의_필요정보) {

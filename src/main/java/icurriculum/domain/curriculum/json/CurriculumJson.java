@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,12 +21,12 @@ public class CurriculumJson {
      */
 
     @JsonProperty("교양필수_리스트")
-    private List<String> 교양필수;
+    private Set<String> 교양필수;
 
     @JsonProperty("전공필수_리스트")
-    private List<String> 전공필수;
+    private Set<String> 전공필수;
 
     @JsonProperty("전공선택_리스트")
-    private List<String> 전공선택;
+    private Set<String> 전공선택;
 
 }

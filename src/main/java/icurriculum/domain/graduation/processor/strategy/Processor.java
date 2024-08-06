@@ -8,9 +8,9 @@ import java.util.List;
 public interface Processor<T> {
     void process(GraduationResponse response, T requirement, List<Take> takes);
 
-    default int calculateTotalCredit(List<Take> takesList) {
-        return takesList.stream()
-                .mapToInt(Take::getCredit)
+    default int calculateTotalCredit(List<Take> takes) {
+        return takes.stream()
+                .mapToInt(take -> take.getCourse().getCredit())
                 .sum();
     }
 

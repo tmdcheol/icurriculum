@@ -1,13 +1,11 @@
 package icurriculum.domain.member;
 
-import icurriculum.domain.department.Department;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.EnumType.STRING;
-import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
@@ -26,18 +24,13 @@ public class Member {
 
     private Integer joinYear;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "department_id")
-    private Department department;
-
     @Enumerated(STRING)
     private RoleType role;
 
     @Builder
-    public Member(String name, Integer joinYear, Department department, RoleType role) {
+    public Member(String name, Integer joinYear, RoleType role) {
         this.name = name;
         this.joinYear = joinYear;
-        this.department = department;
         this.role = role;
     }
 }

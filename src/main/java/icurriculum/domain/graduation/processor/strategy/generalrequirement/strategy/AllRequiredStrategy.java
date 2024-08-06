@@ -19,7 +19,7 @@ public class AllRequiredStrategy implements GeneralRequirementStrategy {
         int 이수학점 = calculateTotalCredit(takes);
 
         Set<String> 수강과목코드 = takes.stream()
-                .map(Take::getCode)
+                .map(take -> take.getCourse().getCode())
                 .collect(Collectors.toSet());
 
         List<String> 미이수_과목 = new ArrayList<>();
@@ -29,8 +29,8 @@ public class AllRequiredStrategy implements GeneralRequirementStrategy {
                 미이수_과목.add(code);
             }
         }
-        response.교양필수_영역_입력(이수학점, );
+/*        response.교양필수_영역_입력(이수학점, );
         response.핵심교양_영역_입력_영역상관있을때(calculateTotalCredit(takes), 미이수영역);
-        response.창의_영역_입력(수강학점, 기준학점);
+        response.창의_영역_입력(수강학점, 기준학점);*/
     }
 }

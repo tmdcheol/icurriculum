@@ -8,7 +8,7 @@ import icurriculum.domain.department.Department;
 import icurriculum.domain.graduation.processor.config.ProcessorCategory;
 import icurriculum.domain.graduation.processor.strategy.Processor;
 import icurriculum.domain.graduation.processor.strategy.generalrequirement.GeneralRequirement;
-import icurriculum.domain.membermajor.service.MemberMajorService;
+import icurriculum.domain.membermajor.repository.MemberMajorRepository;
 import icurriculum.domain.take.Take;
 import icurriculum.domain.take.service.TakeService;
 import icurriculum.domain.take.Category;
@@ -32,31 +32,32 @@ import static icurriculum.domain.graduation.processor.strategy.generalrequiremen
 @RequiredArgsConstructor
 public class GraduationService {
 
-    private final MemberMajorService memberMajorService;
+    private final MemberMajorRepository memberMajorRepository;
     private final TakeService takeService;
     private final CurriculumService curriculumService;
 
     private final Map<ProcessorCategory, Processor<?>> processorMap;
 
 
-    public void run(Member member) {
+    public void check(Member member) {
         GraduationResponse response = new GraduationResponse();
 
-        // 1. 회원 전공 상태를 가져온다.
-        List<MemberMajor> memberMajors = memberMajorService.getMemberMajors(member);
+        // 1. 영역별 수강이력을 가져온다.
+        Map<Category, List<Take>> takeMapForCategory = takeService.generateTakeMapForCategory(member);
 
-        // 2. 회원전공상태를 기반으로 핵심교양_SW_창의 관련 정보를 가져온다.
+        // 2. 회원 전공 상태 List 가져온다.
+        List<MemberMajor> memberMajors = memberMajorRepository.findByMember(member);
+
+        // 3. 회원전공상태 중 주전공을 기반으로 교양 관련 정보들을 가져온다.
         Curriculum 주전공_curriculum = generate_주전공_curriculum(memberMajors);
         CoreJson 핵심교양_SW_창의_필요정보 = 주전공_curriculum.getCoreJson();
-
-        // 3. 영역별 수강이력을 가져온다.
-        Map<Category, List<Take>> takeMapForCategory = takeService.generateTakeMapForCategory(member);
+        Set<String> 교양필수_필수과목 = 주전공_curriculum.getCurriculumJson().get교양필수();
 
         // 4. 핵심교양SW창의_프로세스_진행
         핵심교양SW창의_프로세스_진행(response, 핵심교양_SW_창의_필요정보, takeMapForCategory);
 
         // 5. 교양필수_프로세스_진행
-        교양필수_프로세스_진행(response, 주전공_curriculum.getCurriculumJson().get교양필수(), member.getDepartment(), getTakes(takeMapForCategory, Category.교양필수));
+        교양필수_프로세스_진행(response,교양필수_필수과목, 주전공_curriculum.getDecider().getDepartment(), getTakes(takeMapForCategory, Category.교양필수));
 
         // 6. 전공 프로세스 진행
         전공_프로세스_진행();

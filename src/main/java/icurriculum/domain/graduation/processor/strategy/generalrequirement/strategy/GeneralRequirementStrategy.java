@@ -9,9 +9,10 @@ import java.util.Set;
 public interface GeneralRequirementStrategy {
     void execute(GraduationResponse response, Set<String> generalRequirementCode, List<Take> takes);
 
-    default int calculateTotalCredit(List<Take> takesList) {
-        return takesList.stream()
-                .mapToInt(Take::getCredit)
+    default int calculateTotalCredit(List<Take> takes) {
+        return takes.stream()
+                .mapToInt(take -> take.getCourse().getCredit())
                 .sum();
     }
+
 }

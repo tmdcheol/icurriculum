@@ -27,6 +27,8 @@ import static icurriculum.domain.take.Category.*;
 @RequiredArgsConstructor
 public class DataInitializer {
 
+    private static final Long testMemberId = 1L;
+
     private final MemberRepository memberRepository;
     private final DepartmentRepository departmentRepository;
     private final MemberMajorRepository memberMajorRepository;
@@ -39,43 +41,49 @@ public class DataInitializer {
      */
     @PostConstruct
     public void init() {
-        Department department = saveDepartment();
+        Department department = getTestDepartmentOnlyData();
+        departmentRepository.save(department);
 
-        Member member = saveMember();
+        Member member = getTestMemberOnlyData();
+        memberRepository.save(member);
 
-        MemberMajor memberMajor = saveMemberMajor(member, department);
+        MemberMajor memberMajor = getTestMemberMajorOnlyData(member, department);
+        memberMajorRepository.save(memberMajor);
 
-        List<Course> courses = saveCourses();
+        List<Course> courses = getTestCoursesOnlyData();
+        courseRepository.saveAll(courses);
 
-        saveTakes(member);
+        List<Take> takes = getTakesOnlyData(member);
+        takeRepository.saveAll(takes);
     }
 
-    private Department saveDepartment() {
-        Department department = Department.builder()
+    public Long getTestMemberId() {
+        return testMemberId;
+    }
+
+    public Department getTestDepartmentOnlyData() {
+        return Department.builder()
                 .name(DepartmentName.컴퓨터공학과)
                 .build();
-        return departmentRepository.save(department);
     }
 
-    private Member saveMember() {
-        Member member = Member.builder()
+    public Member getTestMemberOnlyData() {
+        return Member.builder()
                 .name("이승철")
                 .joinYear(19)
                 .role(RoleType.ROLE_USER)
                 .build();
-        return memberRepository.save(member);
     }
 
-    private MemberMajor saveMemberMajor(Member member, Department department) {
-        MemberMajor memberMajor = MemberMajor.builder()
+    public MemberMajor getTestMemberMajorOnlyData(Member member, Department department) {
+        return MemberMajor.builder()
                 .majorType(MajorType.주전공)
                 .department(department)
                 .member(member)
                 .build();
-        return memberMajorRepository.save(memberMajor);
     }
 
-    private List<Course> getCourses() {
+    public List<Course> getTestCoursesOnlyData() {
         return Arrays.asList(
                 Course.builder().code("GEB1112").name("크로스오버 1 : 인간의 탐색").credit(2).build(),
                 Course.builder().code("GEB1114").name("크로스오버 3 : 사회의 탐색").credit(2).build(),
@@ -181,13 +189,8 @@ public class DataInitializer {
         );
     }
 
-    private List<Course> saveCourses() {
-        return courseRepository.saveAll(getCourses());
-    }
-
-    private List<Take> getTakes(Member member) {
+    public List<Take> getTakesOnlyData(Member member) {
         return Arrays.asList(
-
                 // 2019학년도 1학기
                 Take.builder().category(전공필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("CSE1101")).member(member).build(),
                 Take.builder().category(교양필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEB1114")).member(member).build(),
@@ -254,10 +257,6 @@ public class DataInitializer {
                 // 2024학년도 1학기
                 Take.builder().category(전공선택).takenYear("2024").takenSemester("1").customCourse(new CustomCourse("CSE9318", "현장실습 18", 18)).member(member).build()
         );
-    }
-
-    private List<Take> saveTakes(Member member) {
-        return takeRepository.saveAll(getTakes(member));
     }
 
 }

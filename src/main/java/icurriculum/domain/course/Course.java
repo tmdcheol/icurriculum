@@ -31,4 +31,14 @@ public class Course {
         this.name = name;
         this.credit = credit;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", credit=" + credit +
+                '}';
+    }
 }

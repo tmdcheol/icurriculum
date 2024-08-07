@@ -33,4 +33,14 @@ public class Member {
         this.joinYear = joinYear;
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", joinYear=" + joinYear +
+                ", role=" + role +
+                '}';
+    }
 }

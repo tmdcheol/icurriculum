@@ -52,4 +52,17 @@ public class Take {
         this.course = course;
         this.customCourse = customCourse;
     }
+
+    @Override
+    public String toString() {
+        return "Take{" +
+                "id=" + id +
+                ", category=" + category +
+                ", takenYear='" + takenYear + '\'' +
+                ", takenSemester='" + takenSemester + '\'' +
+                ", member=" + member +
+                ", course=" + course +
+                ", customCourse=" + customCourse +
+                '}';
+    }
 }

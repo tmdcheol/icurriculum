@@ -32,8 +32,9 @@ import static icurriculum.domain.graduation.processor.strategy.generalrequiremen
 @RequiredArgsConstructor
 public class GraduationService {
 
-    private final MemberMajorRepository memberMajorRepository;
     private final TakeService takeService;
+    private final MemberMajorRepository memberMajorRepository;
+
     private final CurriculumService curriculumService;
 
     private final Map<ProcessorCategory, Processor<?>> processorMap;
@@ -43,7 +44,7 @@ public class GraduationService {
         GraduationResponse response = new GraduationResponse();
 
         // 1. 영역별 수강이력을 가져온다.
-        Map<Category, List<Take>> takeMapForCategory = takeService.generateTakeMapForCategory(member);
+        Map<Category, List<Take>> takeMapForCategory = takeService.getTakeMapForCategory(member);
 
         // 2. 회원 전공 상태 List 가져온다.
         List<MemberMajor> memberMajors = memberMajorRepository.findByMember(member);

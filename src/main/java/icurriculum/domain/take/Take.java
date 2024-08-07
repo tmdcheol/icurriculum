@@ -27,7 +27,7 @@ public class Take {
 
     private String takenYear;
 
-    private String semester;
+    private String takenSemester;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -37,12 +37,19 @@ public class Take {
     @JoinColumn(name = "course_id")
     private Course course;
 
+    /**
+     * 현장실습과 같이 사용자가 직접 입력한 경우
+     */
+    @Embedded
+    private CustomCourse customCourse;
+
     @Builder
-    public Take(Category category, String takenYear, String semester, Member member, Course course) {
+    public Take(Category category, String takenYear, String takenSemester, Member member, Course course, CustomCourse customCourse) {
         this.category = category;
         this.takenYear = takenYear;
-        this.semester = semester;
+        this.takenSemester = takenSemester;
         this.member = member;
         this.course = course;
+        this.customCourse = customCourse;
     }
 }

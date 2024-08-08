@@ -44,7 +44,10 @@ public class MemberMajor {
         this.member = member;
     }
 
-    public boolean is주전공() {
+    /**
+     * 주전공 확인
+     */
+    public boolean isMain() {
         return this.majorType == 주전공;
     }
 

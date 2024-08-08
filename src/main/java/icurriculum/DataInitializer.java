@@ -2,6 +2,12 @@ package icurriculum;
 
 import icurriculum.domain.course.Course;
 import icurriculum.domain.course.repository.CourseRepository;
+import icurriculum.domain.curriculum.Curriculum;
+import icurriculum.domain.curriculum.CurriculumDecider;
+import icurriculum.domain.curriculum.json.CoreJson;
+import icurriculum.domain.curriculum.json.CreditRequirementJson;
+import icurriculum.domain.curriculum.json.CurriculumJson;
+import icurriculum.domain.curriculum.repository.CurriculumRepository;
 import icurriculum.domain.department.Department;
 import icurriculum.domain.department.DepartmentName;
 import icurriculum.domain.department.repository.DepartmentRepository;
@@ -18,9 +24,9 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+import static icurriculum.domain.membermajor.MajorType.주전공;
 import static icurriculum.domain.take.Category.*;
 
 @Component
@@ -35,6 +41,7 @@ public class DataInitializer {
 
     private final CourseRepository courseRepository;
     private final TakeRepository takeRepository;
+    private final CurriculumRepository curriculumRepository;
 
     /**
      * 기본 데이터 추가
@@ -55,6 +62,9 @@ public class DataInitializer {
 
         List<Take> takes = getTakesOnlyData(member);
         takeRepository.saveAll(takes);
+
+        Curriculum curriculum = getTestCurriculumData(department);
+        curriculumRepository.save(curriculum);
     }
 
     public Long getTestMemberId() {
@@ -77,7 +87,7 @@ public class DataInitializer {
 
     public MemberMajor getTestMemberMajorOnlyData(Member member, Department department) {
         return MemberMajor.builder()
-                .majorType(MajorType.주전공)
+                .majorType(주전공)
                 .department(department)
                 .member(member)
                 .build();
@@ -256,6 +266,55 @@ public class DataInitializer {
 
                 // 2024학년도 1학기
                 Take.builder().category(전공선택).takenYear("2024").takenSemester("1").customCourse(new CustomCourse("CSE9318", "현장실습 18", 18)).member(member).build()
+        );
+    }
+
+    public Curriculum getTestCurriculumData(Department department) {
+        CurriculumDecider decider = getTestCurriculumDecider(department);
+        CoreJson coreJson = getTestCoreJson();
+        CreditRequirementJson creditRequirementJson = getTestCreditRequirementJson();
+        CurriculumJson curriculumJson = getCurriculumJson();
+
+        return Curriculum.builder()
+                .decider(decider)
+                .coreJson(coreJson)
+                .creditRequirementJson(creditRequirementJson)
+                .curriculumJson(curriculumJson)
+                .build();
+    }
+
+    private CurriculumDecider getTestCurriculumDecider(Department department) {
+        return new CurriculumDecider(
+                주전공,
+                department,
+                19
+        );
+    }
+
+    private CoreJson getTestCoreJson() {
+        CoreJson.Core.CoreSubjects 지정과목 = new CoreJson.Core.CoreSubjects(
+                new HashSet<>(),
+                new HashSet<>(),
+                new HashSet<>(),
+                new HashSet<>(),
+                new HashSet<>(),
+                new HashSet<>()
+        );
+        CoreJson.Core 핵심교양 = new CoreJson.Core(false, 9, new HashSet<>(), 지정과목);
+        CoreJson.SwAi swAi = new CoreJson.SwAi(false, new HashSet<>(), 0);
+        CoreJson.Creativity 창의 = new CoreJson.Creativity(false, new HashSet<>(), 0);
+        return new CoreJson(핵심교양, swAi, 창의);
+    }
+
+    private CreditRequirementJson getTestCreditRequirementJson() {
+        return new CreditRequirementJson(130, 65, 39, 21);
+    }
+
+    private CurriculumJson getCurriculumJson() {
+        return new CurriculumJson(
+                Set.of("GED1234", "GEE1234"),
+                Set.of("CSE1231", "CSE1234"),
+                Set.of("CSE1231", "CSE1234")
         );
     }
 

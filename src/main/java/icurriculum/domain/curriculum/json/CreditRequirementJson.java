@@ -1,11 +1,13 @@
 package icurriculum.domain.curriculum.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import static lombok.AccessLevel.PROTECTED;
 
 @Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 public class CreditRequirementJson {
 
     /**

@@ -1,12 +1,17 @@
-package icurriculum.domain.curriculum.decider;
+package icurriculum.domain.curriculum;
 
 import icurriculum.domain.department.Department;
 import icurriculum.domain.membermajor.MajorType;
-import lombok.AccessLevel;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
+
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.PROTECTED;
 
 /**
  * Embedded type
@@ -14,11 +19,18 @@ import java.util.Objects;
  * 수정 X
  */
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
+@Embeddable
 public class CurriculumDecider {
 
+    @Enumerated(STRING)
     private MajorType majorType;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "department_id")
     private Department department;
+
     private Integer joinYear;
 
     @Override
@@ -32,10 +44,6 @@ public class CurriculumDecider {
     @Override
     public int hashCode() {
         return Objects.hash(getMajorType(), getDepartment(), getJoinYear());
-    }
-
-    public static CurriculumDecider createDecider(MajorType majorType, Department department, Integer joinYear) {
-        return new CurriculumDecider(majorType, department, joinYear);
     }
 
 }

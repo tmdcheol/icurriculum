@@ -14,7 +14,6 @@ import icurriculum.domain.department.repository.DepartmentRepository;
 import icurriculum.domain.member.Member;
 import icurriculum.domain.member.RoleType;
 import icurriculum.domain.member.repository.MemberRepository;
-import icurriculum.domain.membermajor.MajorType;
 import icurriculum.domain.membermajor.MemberMajor;
 import icurriculum.domain.membermajor.repository.MemberMajorRepository;
 import icurriculum.domain.take.CustomCourse;

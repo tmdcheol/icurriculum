@@ -202,64 +202,65 @@ public class DataInitializer {
     public List<Take> getTakesOnlyData(Member member) {
         return Arrays.asList(
                 // 2019학년도 1학기
-                Take.builder().category(전공필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("CSE1101")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEB1114")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEB1115")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEB1124")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEB1131")).member(member).build(),
-                Take.builder().category(교양선택).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEG1123")).member(member).build(),
-                Take.builder().category(교양선택).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("MTH1010")).member(member).build(),
+                Take.builder().category(전공필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("CSE1101").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEB1114").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEB1115").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEB1124").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEB1131").get()).member(member).build(),
+                Take.builder().category(교양선택).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("GEG1123").get()).member(member).build(),
+                Take.builder().category(교양선택).takenYear("2019").takenSemester("1").course(courseRepository.findByCode("MTH1010").get()).member(member).build(),
 
                 // 2019학년도 2학기
-                Take.builder().category(교양필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("ACE1204")).member(member).build(),
-                Take.builder().category(전공필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("CSE1102")).member(member).build(),
-                Take.builder().category(전공필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("CSE1103")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("GEB1108")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("GEB1112")).member(member).build(),
-                Take.builder().category(교양선택).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("GEC1027")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("MTH1001")).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("ACE1204").get()).member(member).build(),
+                Take.builder().category(전공필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("CSE1102").get()).member(member).build(),
+                Take.builder().category(전공필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("CSE1103").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("GEB1108").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("GEB1112").get()).member(member).build(),
+                Take.builder().category(교양선택).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("GEC1027").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2019").takenSemester("2").course(courseRepository.findByCode("MTH1001").get()).member(member).build(),
 
                 // 2021학년도 2학기
-                Take.builder().category(교양선택).takenYear("2021").takenSemester("2").course(courseRepository.findByCode("GED4009")).member(member).build(),
+                Take.builder().category(교양선택).takenYear("2021").takenSemester("2").course(courseRepository.findByCode("GED4009").get()).member(member).build(),
 
                 // 2021학년도 동계학기
-                Take.builder().category(교양필수).takenYear("2021").takenSemester("동계").course(courseRepository.findByCode("MTH1002")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2021").takenSemester("동계").course(courseRepository.findByCode("PHY1001")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2021").takenSemester("동계").course(courseRepository.findByCode("PHY1002")).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2021").takenSemester("동계").course(courseRepository.findByCode("MTH1002").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2021").takenSemester("동계").course(courseRepository.findByCode("PHY1001").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2021").takenSemester("동계").course(courseRepository.findByCode("PHY1002").get()).member(member).build(),
 
                 // 2022학년도 1학기
-                Take.builder().category(교양필수).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("ACE2104")).member(member).build(),
-                Take.builder().category(전공선택).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("CSE2104")).member(member).build(),
-                Take.builder().category(전공선택).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("CSE2107")).member(member).build(),
-                Take.builder().category(전공필수).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("CSE2112")).member(member).build(),
-                Take.builder().category(교양선택).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("GEE3029")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("PHY1003")).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("ACE2104").get()).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("CSE2104").get()).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("CSE2107").get()).member(member).build(),
+                Take.builder().category(전공필수).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("CSE2112").get()).member(member).build(),
+                Take.builder().category(교양선택).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("GEE3029").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2022").takenSemester("1").course(courseRepository.findByCode("PHY1003").get()).member(member).build(),
 
                 // 2022학년도 하계학기
-                Take.builder().category(교양필수).takenYear("2022").takenSemester("하계").course(courseRepository.findByCode("ACE2101")).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2022").takenSemester("하계").course(courseRepository.findByCode("ACE2101").get()).member(member).build(),
 
                 // 2022학년도 2학기
-                Take.builder().category(교양필수).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("ACE1312")).member(member).build(),
-                Take.builder().category(전공필수).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("CSE2101")).member(member).build(),
-                Take.builder().category(전공선택).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("CSE2113")).member(member).build(),
-                Take.builder().category(전공선택).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("CSE3209")).member(member).build(),
-                Take.builder().category(교양선택).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("GED3018")).member(member).build(),
-                Take.builder().category(교양필수).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("PHY1004")).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("ACE1312").get()).member(member).build(),
+                Take.builder().category(전공필수).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("CSE2101").get()).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("CSE2113").get()).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("CSE3209").get()).member(member).build(),
+                Take.builder().category(교양선택).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("GED3018").get()).member(member).build(),
+                Take.builder().category(교양필수).takenYear("2022").takenSemester("2").course(courseRepository.findByCode("PHY1004").get()).member(member).build(),
 
                 // 2023학년도 1학기
-                Take.builder().category(전공선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("CSE3203")).member(member).build(),
-                Take.builder().category(전공선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("CSE3206")).member(member).build(),
-                Take.builder().category(전공선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("CSE3207")).member(member).build(),
-                Take.builder().category(전공선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("CSE4204")).member(member).build(),
-                Take.builder().category(교양선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("GED6005")).member(member).build(),
-                Take.builder().category(교양선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("GEE4011")).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("CSE3203").get()).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("CSE3206").get()).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("CSE3207").get()).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("CSE4204").get()).member(member).build(),
+                Take.builder().category(교양선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("GED6005").get()).member(member).build(),
+                Take.builder().category(교양선택).takenYear("2023").takenSemester("1").course(courseRepository.findByCode("GEE4011").get()).member(member).build(),
 
                 // 2023학년도 2학기
-                Take.builder().category(전공선택).takenYear("2023").takenSemester("2").course(courseRepository.findByCode("CSE3212")).member(member).build(),
-                Take.builder().category(전공선택).takenYear("2023").takenSemester("2").course(courseRepository.findByCode("CSE3309")).member(member).build(),
-                Take.builder().category(전공선택).takenYear("2023").takenSemester("2").course(courseRepository.findByCode("CSE3313")).member(member).build(),
-                Take.builder().category(전공선택).takenYear("2023").takenSemester("2").course(courseRepository.findByCode("CSE4301")).member(member).build(),
-                Take.builder().category(교양선택).takenYear("2023").takenSemester("2").course(courseRepository.findByCode("GEE5017")).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2023").takenSemester("2").course(courseRepository.findByCode("CSE3212").get()).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2023").takenSemester("2").course(courseRepository.findByCode("CSE3309").get()).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2023").takenSemester("2").course(courseRepository.findByCode("CSE3313").get()).member(member).build(),
+                Take.builder().category(전공선택).takenYear("2023").takenSemester("2").course(courseRepository.findByCode("CSE4301").get()).member(member).build(),
+                Take.builder().category(교양선택).takenYear("2023").takenSemester("2").course(courseRepository.findByCode("GEE5017").get()).member(member).build(),
+
 
                 // 2023학년도 동계학기
                 Take.builder().category(교양선택).takenYear("2023").takenSemester("동계").customCourse(new CustomCourse("AAO9017", "현장실습 6", 6)).member(member).build(),
@@ -312,10 +313,23 @@ public class DataInitializer {
 
     private CurriculumJson getCurriculumJson() {
         return new CurriculumJson(
-                Set.of("GED1234", "GEE1234"),
-                Set.of("CSE1231", "CSE1234"),
-                Set.of("CSE1231", "CSE1234")
+                Set.of(
+                        "GEB1112", "GEB1114", "GEB1115", "GEB1124", "GEB1131", "GEB1107", "GEB1108",
+                        "GEB1109", "GEB1201", "GEB1202", "GEB1203", "ACE1204", "ACE1312", "ACE2101",
+                        "ACE2104", "ACE2106", "MTH1001", "MTH1002", "PHY1001", "PHY1002", "PHY1003", "PHY1004"
+                ),
+                Set.of(
+                        "CSE1101", "CSE1102", "CSE1103", "CSE2101", "CSE2112", "CSE4205"
+                ),
+                Set.of(
+                        "ICE4029", "IEN3204", "CSE1105", "CSE2103", "CSE2104", "CSE2105", "CSE2107",
+                        "CSE3101", "CSE3201", "CSE3203", "CSE3206", "CSE3308", "CSE3309", "CSE4201",
+                        "CSE4202", "CSE4204", "CSE4308", "CSE3102", "CSE3207", "CSE4302", "CSE4305",
+                        "CSE4314", "CSE3202", "CSE3205", "CSE3302", "CSE3303", "CSE3304", "CSE3307",
+                        "CSE4312", "CSE3204", "CSE4301", "CSE4303", "CSE4304", "CSE4307"
+                )
         );
     }
+
 
 }

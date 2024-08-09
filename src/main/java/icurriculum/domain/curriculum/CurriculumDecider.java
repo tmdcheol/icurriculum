@@ -45,5 +45,4 @@ public class CurriculumDecider {
     public int hashCode() {
         return Objects.hash(getMajorType(), getDepartment(), getJoinYear());
     }
-
 }

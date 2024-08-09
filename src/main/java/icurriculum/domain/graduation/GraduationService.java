@@ -1,9 +1,9 @@
 package icurriculum.domain.graduation;
 
 import icurriculum.domain.curriculum.Curriculum;
-import icurriculum.domain.curriculum.decider.CurriculumDecider;
-import icurriculum.domain.curriculum.decider.DeciderUtils;
-import icurriculum.domain.curriculum.service.CurriculumService;
+import icurriculum.domain.curriculum.CurriculumDecider;
+import icurriculum.domain.curriculum.repository.CurriculumRepository;
+import icurriculum.domain.curriculum.util.MajorToDeciderConverter;
 import icurriculum.domain.department.Department;
 import icurriculum.domain.graduation.processor.config.ProcessorCategory;
 import icurriculum.domain.graduation.processor.strategy.Processor;
@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static icurriculum.domain.graduation.processor.strategy.generalrequirement.GeneralRequirement.*;
+import static icurriculum.domain.membermajor.util.MemberMajorUtils.getMainMemberMajor;
 
 
 /**
@@ -34,8 +35,7 @@ public class GraduationService {
 
     private final TakeService takeService;
     private final MemberMajorRepository memberMajorRepository;
-
-    private final CurriculumService curriculumService;
+    private final CurriculumRepository curriculumRepository;
 
     private final Map<ProcessorCategory, Processor<?>> processorMap;
 
@@ -43,14 +43,19 @@ public class GraduationService {
     public void check(Member member) {
         GraduationResponse response = new GraduationResponse();
 
-        // 1. 영역별 수강이력을 가져온다.
+        // 1. 영역별 수강내역을 가져온다.
         Map<Category, List<Take>> takeMapForCategory = takeService.getTakeMapForCategory(member);
 
         // 2. 회원 전공 상태 List 가져온다.
         List<MemberMajor> memberMajors = memberMajorRepository.findByMember(member);
 
         // 3. 회원전공상태 중 주전공을 기반으로 교양 관련 정보들을 가져온다.
-        Curriculum 주전공_curriculum = generate_주전공_curriculum(memberMajors);
+        MemberMajor mainMemberMajor = getMainMemberMajor(memberMajors);
+        CurriculumDecider mainCurriculumDecider = MajorToDeciderConverter.of(mainMemberMajor);
+        Curriculum 주전공_curriculum = curriculumRepository.findByDecider(mainCurriculumDecider)
+                .orElseThrow(RuntimeException::new); // 예외 추후 정의
+
+
         CoreJson 핵심교양_SW_창의_필요정보 = 주전공_curriculum.getCoreJson();
         Set<String> 교양필수_필수과목 = 주전공_curriculum.getCurriculumJson().get교양필수();
 
@@ -62,14 +67,6 @@ public class GraduationService {
 
         // 6. 전공 프로세스 진행
         전공_프로세스_진행();
-    }
-
-    /**
-     * 회원 전공 상태를 기반으로 주전공 curriculum 가져오기
-     */
-    private Curriculum generate_주전공_curriculum(List<MemberMajor> memberMajors) {
-        CurriculumDecider deciders = DeciderUtils.generateDeciderOnly주전공(memberMajors);
-        return curriculumService.getByDecider(deciders);
     }
 
     private void 핵심교양SW창의_프로세스_진행(GraduationResponse response, CoreJson 핵심교양_SW_창의_필요정보, Map<Category, List<Take>> takeMap) {

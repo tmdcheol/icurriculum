@@ -31,14 +31,17 @@ public class Curriculum {
 
     @Convert(converter = CoreJsonConverter.class)
     @JsonProperty("핵심교양_SW_창의")
+    @Column(columnDefinition = "TEXT")
     private CoreJson coreJson;
 
     @Convert(converter = CreditRequirementJsonConverter.class)
     @JsonProperty("필수이수학점")
+    @Column(columnDefinition = "TEXT")
     private CreditRequirementJson creditRequirementJson;
 
     @Convert(converter = CurriculumJsonConverter.class)
     @JsonProperty("교과과정")
+    @Column(columnDefinition = "TEXT")
     private CurriculumJson curriculumJson;
 
     @Builder
